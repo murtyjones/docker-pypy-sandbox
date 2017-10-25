@@ -1,6 +1,6 @@
 {
   "name": "docker-pypy-sandbox",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A docker-based sandbox to execute untrusted python code code",
   "main": "./lib/Sandbox",
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/christophetd/docker-python-sandbox-v2.git"
+    "url": "git+https://github.com/murtyjones/pypy-sandbox.git"
   },
   "author": "Christophe Tafani-Dereeper <christophe@tafani-dereeper.me>",
   "license": "ISC",
