@@ -1,6 +1,6 @@
 {
-  "name": "docker-python-sandbox",
-  "version": "0.0.7",
+  "name": "docker-pypy-sandbox",
+  "version": "0.0.1",
   "description": "A docker-based sandbox to execute untrusted python code code",
   "main": "./lib/Sandbox",
   "scripts": {
@@ -18,9 +18,9 @@
   "author": "Christophe Tafani-Dereeper <christophe@tafani-dereeper.me>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/christophetd/docker-python-sandbox-v2/issues"
+    "url": "https://github.com/murtyjones/docker-pypy-sandbox/issues"
   },
-  "homepage": "https://github.com/christophetd/docker-python-sandbox-v2#readme",
+  "homepage": "https://github.com/murtyjones/docker-pypy-sandbox#readme",
   "dependencies": {
     "async": "^2.0.0-rc.3",
     "dockerode": "^2.2.10",
@@ -32,5 +32,15 @@
   },
   "devDependencies": {
     "jasmine-node": "^1.14.5"
-  }
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "keywords": [
+    "docker",
+    "python",
+    "pypy",
+    "sandbox"
+  ]
 }

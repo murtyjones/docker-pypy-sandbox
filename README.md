@@ -1,6 +1,8 @@
 [![Build Status](https://travis-ci.org/christophetd/docker-python-sandbox.svg)](https://travis-ci.org/christophetd/docker-python-sandbox)
 
-# Docker Python sandbox
+# Docker Pypy sandbox
+
+NOTE: This is a fork of docker-python sandbox intended to be used with Pypy.
 
 As its name suggests, this library is a NodeJS sandbox for executing untrusted Python code in Docker containers.
 
