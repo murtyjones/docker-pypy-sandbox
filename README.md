@@ -1,8 +1,6 @@
-[![Build Status](https://travis-ci.org/christophetd/docker-python-sandbox.svg)](https://travis-ci.org/christophetd/docker-python-sandbox)
+# Docker PyPy sandbox
 
-# Docker Pypy sandbox
-
-NOTE: This is a fork of docker-python sandbox intended to be used with Pypy.
+NOTE: This is a fork of docker-python sandbox intended to be used with PyPy.
 
 As its name suggests, this library is a NodeJS sandbox for executing untrusted Python code in Docker containers.
 
@@ -30,7 +28,7 @@ The library maintains a fixed-size pool of containers. The containers run a mini
 ### Example use
 
 ```javascript
-let Sandbox = require('docker-python-sandbox')
+let Sandbox = require('docker-pypy-sandbox')
 
 const poolSize = 5
 let mySandbox = new Sandbox({poolSize})
