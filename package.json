@@ -12,7 +12,7 @@
     "debug": "node debug app.js",
     "docker-build": "docker build -t pypy-sandbox container/.",
     "docker-stop-all": "docker stop $(docker ps -q)",
-    "docker-run": "docker run -it --rm -p 3000:3000 compile",
+    "docker-run": "docker run -it --rm -p 3000:3000 pypy-sandbox",
     "docker-local": "npm run docker-build && npm run docker-run"
 
   },
