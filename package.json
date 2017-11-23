@@ -21,7 +21,7 @@
     "url": "git+https://github.com/murtyjones/docker-pypy-sandbox.git"
   },
   "author": "Christophe Tafani-Dereeper <christophe@tafani-dereeper.me>",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/murtyjones/docker-pypy-sandbox/issues"
   },
