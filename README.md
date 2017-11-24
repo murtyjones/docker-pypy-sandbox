@@ -6,10 +6,10 @@ This is a fork of [docker-python-sandbox](https://github.com/christophetd/docker
 
 1. [Install Docker](https://docs.docker.com/engine/installation/)
 2. `mkdir docker-pypy-sandbox-example && cd docker-pypy-sandbox-example`
-3. `npm init` (just hit enter until done.)
+3. `npm init` (press `return` until done)
 4. Install the library: `npm install --save docker-pypy-sandbox`
-5. Build the docker image used by the library: `npm run docker-build` (this will take 5-20 mins the first time but only needs to be done once.)
-6. create a file, `index.js`, with the following code:
+5. Build the docker image used by the library: `docker build -t pypy-sandbox ./node_modules/docker-pypy-sandbox/container/.` (this will take 5-20 mins the first time but only needs to be done once.)
+6. Create a new file, `index.js`, with the following code:
 ```javascript
 let Sandbox = require('docker-pypy-sandbox')
 
@@ -30,6 +30,8 @@ mySandbox.initialize(err => {
 });
 
 ```
-7. `npm run docker-run`
+7. `docker run -it --rm -p 3000:3000 pypy-sandbox`
 8. open a new tab using `CMD + T`
 9. `node index.js --mac=true`
+
+The output should be `Hello, world!`
