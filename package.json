@@ -1,6 +1,6 @@
 {
   "name": "docker-pypy-sandbox",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "A docker-based sandbox to execute untrusted python code code",
   "main": "./lib/Sandbox",
   "scripts": {
