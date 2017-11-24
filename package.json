@@ -5,7 +5,7 @@
   "main": "./lib/Sandbox",
   "scripts": {
     "test": "./scripts/run_tests.sh",
-    "test-unit": "jasmine-node --verbose --captureExceptions test/unit",
+    "test-unit": "mocha test/unit/** --require babel-core/register",
     "start": "node app.js",
     "clean": "docker stop $(docker ps -q) && rm -rf tmp",
     "cleanAndRun": "docker stop $(docker ps -q) && rm -rf tmp && node --harmony_destructuring app.js",
@@ -14,7 +14,6 @@
     "docker-stop-all": "docker stop $(docker ps -q)",
     "docker-run": "docker run -it --rm -p 3000:3000 pypy-sandbox",
     "docker-local": "npm run docker-build && npm run docker-run"
-
   },
   "repository": {
     "type": "git",
@@ -37,7 +36,12 @@
     "yargs": "^10.0.3"
   },
   "devDependencies": {
-    "jasmine-node": "^1.14.5"
+    "babel-core": "^6.26.0",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "proxyquire": "^1.8.0",
+    "jasmine-node": "^1.14.5",
+    "sinon": "^4.1.2"
   },
   "directories": {
     "lib": "lib",
