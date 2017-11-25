@@ -117,16 +117,37 @@ describe('Container', () => {
 
     it('should call cb once with expected params if an err with any other code is returned to the request.post callback', () => {
       mocks['request'].post.callsArgWith(1, { code: "SOMETHINGELSE" }, null)
-      const expected = {
-        timedOut: true,
-        isError: true,
-        stderr: '',
-        stdout: '',
-        combined: ''
-      }
       const r = container.executeJob(job, cb)
       expect(cb.callCount).to.equal(1)
       expect(cb.args[0][0].toString()).to.equal('Error: unable to contact container: [object Object]')
+    })
+
+    it('should call cb once with expected params if no err but no res object either', () => {
+      mocks['request'].post.callsArgWith(1, null, null)
+      const r = container.executeJob(job, cb)
+      expect(cb.callCount).to.equal(1)
+      expect(cb.args[0][0].toString()).to.equal('Error: empty response from container')
+    })
+
+
+    it('should call cb once with expected params by default', () => {
+      const response = {
+        body: {
+          isError: false,
+          timedOut: false,
+          stderr: 'fakeStdErr',
+          stdout: 'fakeStdOut',
+          combined: 'fakeCombined',
+          killedByContainer: false
+        }
+      }
+
+      const expected = response.body
+      mocks['request'].post.callsArgWith(1, null, response)
+      const r = container.executeJob(job, cb)
+      expect(cb.callCount).to.equal(1)
+      expect(cb.args[0][0]).to.deep.equal(null)
+      expect(cb.args[0][1]).to.deep.equal(expected)
     })
 
   })
