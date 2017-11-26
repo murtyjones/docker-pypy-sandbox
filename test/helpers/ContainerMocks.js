@@ -13,6 +13,10 @@ const generateMocks = sandbox => {
       argv: {
         mac: ""
       }
+    },
+    'async': {
+      nextTick: sandbox.stub()
+      , series: sandbox.stub()
     }
   }
 }
