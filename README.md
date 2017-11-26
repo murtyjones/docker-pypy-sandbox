@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/murtyjones/docker-pypy-sandbox.svg?branch=master)](https://travis-ci.org/murtyjones/docker-pypy-sandbox)
 # Docker PyPy Sandbox
 
 This is a fork of [docker-python-sandbox](https://github.com/christophetd/docker-python-sandbox), intended to be used with PyPy instead of the typical Python compiler (CPython). Unless you know that you need PyPy, it is advised that you stick with `docker-python-sandbox`.
