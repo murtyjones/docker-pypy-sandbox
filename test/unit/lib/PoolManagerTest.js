@@ -56,6 +56,7 @@ describe('PoolManager', () => {
     })
   })
 
+
   describe('initialize', () => {
     let size, cb
     beforeEach(() => {
@@ -100,5 +101,42 @@ describe('PoolManager', () => {
     })
 
   })
+
+
+  describe('executeJob', () => {
+    let job, cb
+    beforeEach(() => {
+      job = { fake: 'job' }
+      cb = sandbox.stub()
+      poolManager._executeJob = sandbox.stub()
+    })
+
+    afterEach(() => {
+
+    })
+
+    it('should push the job into the waiting container pool if none available', () => {
+      poolManager.availableContainers = []
+      expect(poolManager.waitingJobs).to.deep.equal([])
+      poolManager.executeJob(job, cb)
+      expect(poolManager.waitingJobs).to.deep.equal([job])
+    })
+
+    it('should call this._executeJob once with expected args otherwise', () => {
+      poolManager.availableContainers = [{ not: 'empty' }]
+      poolManager.executeJob(job, cb)
+      expect(poolManager._executeJob.callCount).to.be.equal(1)
+      expect(poolManager._executeJob.args[0][0]).to.be.equal(job)
+      expect(poolManager._executeJob.args[0][1]).to.be.equal(cb)
+    })
+
+    it('should call this._executeJob once with expected args otherwise', () => {
+      poolManager.availableContainers = [{ not: 'empty' }]
+      poolManager.executeJob(job)
+      expect(poolManager._executeJob.args[0][1]).to.be.equal(mocks['lodash'].noop)
+    })
+
+  })
+
 
 })

@@ -8,6 +8,7 @@ const generateMocks = sandbox => {
     'lodash': {
       noop: sandbox.stub().returns('noop result')
       , range: (p) => { return _.range(p) }
+      , isEmpty: (p) => { return _.isEmpty(p) }
     },
     'request': {
       post: sandbox.stub()
