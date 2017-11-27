@@ -22,6 +22,8 @@ const generateMocks = sandbox => {
       nextTick: sandbox.stub()
       , series: sandbox.stub()
       , parallel: sandbox.stub()
+      , waterfall: sandbox.stub().resolvesThis()
+      , retryable: sandbox.stub()
     },
     'events': {
       EventEmitter: sandbox.stub().returns('hi')

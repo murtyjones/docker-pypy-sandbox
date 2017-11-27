@@ -34,7 +34,7 @@ describe('PoolManager', () => {
   })
 
 
-  describe('contstructor', () => {
+  describe('constructor', () => {
     it('should pass expected items to constructor and call expected classes', () => {
       const expected = {
         waitingJobs: []
@@ -134,6 +134,112 @@ describe('PoolManager', () => {
       poolManager.availableContainers = [{ not: 'empty' }]
       poolManager.executeJob(job)
       expect(poolManager._executeJob.args[0][1]).to.be.equal(mocks['lodash'].noop)
+    })
+
+  })
+
+  
+  describe('_executeJob', () => {
+    let job, cb, jobCb, execJobStub, cleanupStub
+    beforeEach(() => {
+      jobCb = sandbox.stub()
+      job = {
+        fake: 'job'
+        , cb: jobCb
+      }
+      cb = sandbox.stub()
+      execJobStub = sandbox.stub()
+      cleanupStub = sandbox.stub()
+      poolManager.availableContainers = [ { not: 'empty' } ]
+      poolManager.availableContainers.shift = sandbox.stub().returns({
+        executeJob: execJobStub
+        , cleanup: cleanupStub
+      })
+      poolManager._createContainer.bind = sandbox.stub()
+      process.nextTick = sandbox.stub()
+    })
+
+    afterEach(() => {
+
+    })
+
+    it('should throw an error if no available container', () => {
+      poolManager.availableContainers = []
+      expect(() => { poolManager._executeJob(job, cb) }).to.throw('no containers available, but there should have been!')
+    })
+
+    it('should call shift method', () => {
+      const r = poolManager._executeJob(job, cb)
+      expect(poolManager.availableContainers.shift.callCount).to.be.equal(1)
+
+    })
+
+    describe('call to async.waterfull', () => {
+      it('should call async.retryable once', () => {
+        const r = poolManager._executeJob(job, cb)
+        expect(mocks['async'].retryable.callCount).to.be.equal(1)
+
+      })
+
+      it('should pass async.retryable interval options', () => {
+        const r = poolManager._executeJob(job, cb)
+        expect(mocks['async'].retryable.args[0][0]).to.deep.equal({ times: 10, interval: 500 })
+      })
+
+      it('should pass async.retryable once with a callback that calls container.executeJob', () => {
+        const r = poolManager._executeJob(job, cb)
+        mocks['async'].retryable.args[0][1]('fakeNext')
+        expect(execJobStub.callCount).to.deep.equal(1)
+        expect(execJobStub.args[0][0]).to.deep.equal(job)
+        expect(execJobStub.args[0][1]).to.deep.equal('fakeNext')
+      })
+
+      it('should pass job.cb once with expected args', () => {
+        const result = 'fakeResult'
+        const next = sandbox.stub()
+        const r = poolManager._executeJob(job, cb)
+        mocks['async'].waterfall.args[0][0][1](result, next)
+        expect(jobCb.callCount).to.deep.equal(1)
+        expect(jobCb.args[0][0]).to.deep.equal(null)
+        expect(jobCb.args[0][1]).to.deep.equal(result)
+      })
+
+      it('should pass container.cleanup with expected args', () => {
+        const result = 'fakeResult'
+        const next = sandbox.stub()
+        const r = poolManager._executeJob(job, cb)
+        mocks['async'].waterfall.args[0][0][1](result, next)
+        expect(cleanupStub.callCount).to.deep.equal(1)
+        expect(cleanupStub.args[0][0]).to.deep.equal(mocks['lodash'].noop)
+      })
+
+      it('should pass next() with expected args', () => {
+        const result = 'fakeResult'
+        const next = sandbox.stub()
+        const r = poolManager._executeJob(job, cb)
+        mocks['async'].waterfall.args[0][0][1](result, next)
+        expect(next.callCount).to.deep.equal(1)
+      })
+
+      it('should pass process.nextTick with expected args', () => {
+        const next = sandbox.stub()
+        const r = poolManager._executeJob(job, cb)
+        mocks['async'].waterfall.args[0][0][2](next)
+        expect(poolManager._createContainer.bind.callCount).to.deep.equal(1)
+        expect(poolManager._createContainer.bind.args[0][0]).to.deep.equal(poolManager)
+        expect(poolManager._createContainer.bind.args[0][1]).to.deep.equal(next)
+      })
+
+      it('should pass container.cleanup with expected args', () => {
+        const err = 'fakeErr'
+        const r = poolManager._executeJob(job, cb)
+        mocks['async'].waterfall.args[0][1](err)
+        expect(cleanupStub.callCount).to.deep.equal(1)
+        expect(cleanupStub.args[0][0]).to.deep.equal(mocks['lodash'].noop)
+        expect(cb.callCount).to.deep.equal(1)
+        expect(cb.args[0][0]).to.deep.equal(err)
+      })
+
     })
 
   })
