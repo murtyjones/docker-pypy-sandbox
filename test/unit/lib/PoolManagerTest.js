@@ -245,4 +245,64 @@ describe('PoolManager', () => {
   })
 
 
+  describe('registerContainer', () => {
+    let job, cb, jobCb, shiftStub
+    beforeEach(() => {
+      jobCb = sandbox.stub()
+      job = {
+        fake: 'job'
+        , cb: jobCb
+      }
+      cb = sandbox.stub()
+      shiftStub = sandbox.stub().returns('shift result')
+      poolManager.bootingContainers = [ { not: 'empty1' }, { not: 'empty2' } ]
+      poolManager.bootingContainers.splice = sandbox.stub()
+      poolManager.waitingJobs = [ { not: 'empty1' }, { not: 'empty2' } ]
+      poolManager.waitingJobs.shift = shiftStub
+      poolManager._executeJob = sandbox.stub()
+    })
+
+    afterEach(() => {
+
+    })
+
+    it('should splice if container is in bootingContainers', () => {
+      const indexToUse = 0
+
+      poolManager.registerContainer(poolManager.bootingContainers[indexToUse])
+      expect(poolManager.bootingContainers.splice.callCount).to.be.equal(1)
+      expect(poolManager.bootingContainers.splice.args[0][0]).to.be.equal(indexToUse)
+      expect(poolManager.bootingContainers.splice.args[0][1]).to.be.equal(1)
+    })
+
+    it('should not splice otherwise', () => {
+      poolManager.registerContainer({ so: 'wrong' })
+      expect(poolManager.bootingContainers.splice.callCount).to.be.equal(0)
+    })
+
+    it('should shift if waitingJobs is not empty', () => {
+      const indexToUse = 0
+      poolManager.registerContainer(poolManager.bootingContainers[indexToUse])
+      expect(poolManager.waitingJobs.shift.callCount).to.be.equal(1)
+    })
+
+    it('should call _executeJob once with expected params if waitingJobs is not empty', () => {
+      const indexToUse = 0
+      poolManager.registerContainer(poolManager.bootingContainers[indexToUse])
+      expect(poolManager._executeJob.callCount).to.be.equal(1)
+      expect(poolManager._executeJob.args[0][0]).to.be.equal(shiftStub())
+      expect(poolManager._executeJob.args[0][1]).to.be.equal(mocks['lodash'].noop)
+    })
+
+    it('should not call any of the above if waitingJobs is empty', () => {
+      poolManager.waitingJobs = []
+      poolManager.waitingJobs.shift = shiftStub
+      poolManager.registerContainer({ so: 'wrong' })
+      expect(poolManager.waitingJobs.shift.callCount).to.be.equal(0)
+      expect(poolManager._executeJob.callCount).to.be.equal(0)
+    })
+
+  })
+
+
 })
