@@ -305,4 +305,64 @@ describe('PoolManager', () => {
   })
 
 
+  describe('cleanup', () => {
+    let cb, eachContainerStub, concatStub
+    beforeEach(() => {
+      cb = sandbox.stub()
+      concatStub = sandbox.stub()
+      eachContainerStub = { cleanup: { bind: sandbox.stub().resolvesThis(), concat: concatStub } }
+      poolManager.bootingContainers = [ eachContainerStub, eachContainerStub ]
+      poolManager.bootingContainers.concat = sandbox.stub()
+      poolManager.availableContainers = [ eachContainerStub, eachContainerStub ]
+      poolManager.availableContainers.concat = sandbox.stub()
+    })
+
+    afterEach(() => {
+
+    })
+
+    it('should call bind for each container', () => {
+      const expectedCallCount = poolManager.bootingContainers.length + poolManager.availableContainers.length
+      poolManager.cleanup(cb)
+      expect(eachContainerStub.cleanup.bind.callCount).to.be.equal(expectedCallCount)
+      expect(eachContainerStub.cleanup.bind.args[0][0]).to.be.equal(eachContainerStub)
+    })
+
+    it('should reset availableContainers', () => {
+      poolManager.cleanup(cb)
+      expect(poolManager.availableContainers.length).to.be.equal(0)
+      expect(poolManager.availableContainers).to.deep.equal([])
+    })
+
+    it('should call parallel once', () => {
+      const err = 'fakeErr'
+      poolManager.cleanup(cb)
+      expect(mocks['async'].parallel.callCount).to.be.equal(1)
+    })
+
+    it('should pass concated arrays', () => {
+      const expectedLength = poolManager.bootingContainers.length + poolManager.availableContainers.length
+      poolManager.cleanup(cb)
+      expect(mocks['async'].parallel.args[0][0].length).to.be.equal(expectedLength)
+    })
+
+    it('should pass provided cb with expected args', () => {
+      const err = 'fakeErr'
+      poolManager.cleanup(cb)
+      mocks['async'].parallel.args[0][1](err)
+      expect(cb.callCount).to.be.equal(1)
+      expect(cb.args[0][0]).to.be.equal(err)
+    })
+
+    it('should pass noop cb, if none provided, with expected args', () => {
+      const err = 'fakeErr'
+      poolManager.cleanup()
+      mocks['async'].parallel.args[0][1](err)
+      expect(mocks['lodash'].noop.callCount).to.be.equal(1)
+      expect(mocks['lodash'].noop.args[0][0]).to.be.equal(err)
+    })
+
+  })
+
+
 })
