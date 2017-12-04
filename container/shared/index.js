@@ -20,17 +20,17 @@ app.post('/', function (req, res) {
   } else {
     res.status(200);
 
-    fs.writeFileSync('/code.py', req.body.code);
+    fs.writeFileSync('./code.py', req.body.code);
 
     var executor
     var args
 
     if(argv.compiler === "pypy") {
       executor = '/pypy/sandbox/pypy_interact.py'
-      args = ["--tmp", "/", "/pypy-c", "/tmp/code.py"]
+      args = ["--tmp", "./", "/pypy-c", "/tmp/code.py"]
     } else {
       executor = "python"
-      args = ["-u", "/code.py"]
+      args = ["-u", "./code.py"]
     }
 
     var job = spawn(executor, args, { cwd: __dirname })

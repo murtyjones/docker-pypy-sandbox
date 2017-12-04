@@ -2,4 +2,4 @@
 
 cd /usr/src/app
 ls
-node index.js
+node index.js --compiler=pypy
