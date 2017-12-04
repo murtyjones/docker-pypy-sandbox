@@ -29,7 +29,7 @@ app.post('/', function (req, res) {
       executor = '/pypy/sandbox/pypy_interact.py'
       args = ["--tmp", "./", "/pypy-c", "/tmp/code.py"]
     } else {
-      executor = "python"
+      executor = (req.body.v3 === true) ? "python3" : "python"
       args = ["-u", "./code.py"]
     }
 
