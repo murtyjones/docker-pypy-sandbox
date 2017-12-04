@@ -60,6 +60,6 @@ mySandbox.initialize(err => {
 });
 
 ```
-7. `docker run -it --rm -p 3000:3000 pypy-sandbox`
+7. `docker run -it --rm -p 3000:3000 murtyjones/docker-pypy-sandbox`
 8. open a new tabL `CMD + T`
 9. `node index.js --mac=true`
