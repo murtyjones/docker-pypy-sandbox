@@ -5,4 +5,4 @@ sudo: required
 services:
   - docker
 before_install:
-  - docker pull christophetd/docker-sandbox
+  - docker pull murtyjones/docker-pypy-sandbox
