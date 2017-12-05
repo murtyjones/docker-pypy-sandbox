@@ -4,7 +4,7 @@
   "description": "A docker-based sandbox to execute untrusted python code using PyPy",
   "main": "./lib/Sandbox",
   "scripts": {
-    "test": "npm run test-unit && npm run test-integration",
+    "test": "npm run test-integration",
     "test-unit": "mocha test/unit/** --require babel-core/register",
     "test-integration": "./scripts/run_tests.sh",
     "start": "node app.js",
