@@ -33,7 +33,7 @@ mySandbox.initialize(err => {
 8. `node index.js`
 
 ## Example use (macOS)
-
+NOTE: For an unidentified reason, this library does not work well on macOS. The instructions below will help you to use the library for testing purposes, but this library should only be used in production on a Linux server.
 1. [Install Docker](https://docs.docker.com/engine/installation/)
 2. `mkdir docker-pypy-sandbox-example && cd docker-pypy-sandbox-example`
 3. `npm init` (press `return` until done)
@@ -60,6 +60,6 @@ mySandbox.initialize(err => {
 });
 
 ```
-7. `docker run -it --rm -p 3000:3000 pypy-sandbox`
+7. `docker run -it --rm -p 3000:3000 murtyjones/docker-pypy-sandbox`
 8. open a new tabL `CMD + T`
 9. `node index.js --mac=true`
