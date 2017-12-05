@@ -31,7 +31,10 @@ describe("The Sandbox", () => {
   })
 
   it("should correctly compile a correct python 3 code", done => {
-    sandbox.run({ v3: true, code: 'import sys; print("Hello world", file=sys.stdout)' }, (err, result) => {
+    sandbox.run({
+      v3: true,
+      code: 'import sys; print("Hello world", file=sys.stdout)'
+    }, (err, result) => {
       expect(err).toBe(null)
       expect(result.stdout).toBe("Hello world\n")
       expect(result.stderr).toBe("")
@@ -40,6 +43,7 @@ describe("The Sandbox", () => {
       expect(result.timedOut).toBeFalsy()
       done()
     })
+  })
 
 
     it("should correctly compile a syntactically incorrect python code", done => {
