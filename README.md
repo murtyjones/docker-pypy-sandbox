@@ -1,7 +1,10 @@
 [![Build Status](https://travis-ci.org/murtyjones/docker-pypy-sandbox.svg?branch=master)](https://travis-ci.org/murtyjones/docker-pypy-sandbox)
 # Docker PyPy Sandbox
 
-This is a fork of [docker-python-sandbox](https://github.com/christophetd/docker-python-sandbox), intended to be used with PyPy instead of the typical Python compiler (CPython). Unless you know that you need PyPy, it is advised that you stick with `docker-python-sandbox`.
+This is a fork of [docker-python-sandbox](https://github.com/christophetd/docker-python-sandbox), intended to be used with PyPy instead of the typical Python compiler (CPython). Unless you know that you need PyPy, it is advised that you stick with the original package.
+
+## Why PyPy over CPython?
+PyPy provides a robust [sandboxing feature](http://doc.pypy.org/en/latest/sandbox.html), whereas CPython is notoriously difficult to lock down. PyPy in combination with Docker is a good place to start when exploring arbitrary Python code execution.
 
 ## Example use (Linux)
 1. [Install Docker](https://docs.docker.com/engine/installation/)
