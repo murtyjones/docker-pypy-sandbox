@@ -5,6 +5,7 @@ const generateMocks = sandbox => {
   postStub.callsArgWith(1, null, 'request.post result')
   postStub.withArgs('shouldReturnErrTimedOut').callsArgWith(1, { code: "ETIMEDOUT" }, null)
   return {
+    './Job': sandbox.stub().returns('new job'),
     './Container': sandbox.stub().returns('new container'),
     'lodash': {
       noop: sandbox.stub().returns('noop result')
@@ -13,6 +14,8 @@ const generateMocks = sandbox => {
       , delay: sandbox.stub()
       , partial: sandbox.stub()
       , defaults: (p1, p2) => { return _.defaults(p1, p2) }
+      , isObject: (options) => { return _.isObject(options) }
+      , isString: (options) => { return _.isString(options) }
     },
     'request': {
       post: sandbox.stub()
