@@ -7,6 +7,7 @@ const generateMocks = sandbox => {
   return {
     './Job': sandbox.stub().returns('new job'),
     './Container': sandbox.stub().returns('new container'),
+    './PoolManager': sandbox.stub().returns('new PoolManager'),
     'lodash': {
       noop: sandbox.stub().returns('noop result')
       , range: (p) => { return _.range(p) }
@@ -37,7 +38,8 @@ const generateMocks = sandbox => {
     },
     'uuid': {
       v4: sandbox.stub()
-    }
+    },
+    'dockerode': sandbox.stub().resolves('new dockerode'),
   }
 }
 
